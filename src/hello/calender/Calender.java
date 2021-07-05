@@ -1,12 +1,21 @@
 package hello.calender;
 
+import java.util.Scanner;
+
 public class Calender {
 	public static void main(String[] args) {
-		System.out.println(" 일 월 화 수 목 금 토");
-		System.out.println("--------------------");
-		System.out.println(" 1  2  3  4  5  6  7");
-		System.out.println(" 8  9 10 11 12 13 14");
-		System.out.println("15 16 17 18 19 20 21");
-		System.out.println("22 23 24 25 26 27 28");
+		//입력: 키보드 두 수의 입력을 받는다.
+		//출력: 화면에 두 수의 합을 출력한다.
+		System.out.println("두 수를 입력하세요.");
+		Scanner scanner = new Scanner(System.in);
+		String s1, s2;
+		s1 = scanner.next();
+		s2 = scanner.next();		
+		int a, b;
+		a = Integer.parseInt(s1);
+		b = Integer.parseInt(s2);
+	//	System.out.println("두 수의 합은 " + (a + b) + "입니다.");
+		System.out.printf("%d와 %d의 합은 %d입니다,",a, b, a + b);
+		scanner.close();
 	}
 }
