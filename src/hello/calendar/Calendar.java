@@ -1,6 +1,6 @@
-package hello.calender;
+package hello.calendar;
 
-public class Calender {
+public class Calendar {
 
 	private static final int[] MAX_DAYS = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	private static final int[] LEAP_MAX_DAYS = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
@@ -59,7 +59,7 @@ public class Calender {
 
 	private int getWeekDay(int year, int month, int day) {
 		int syear = 1970;
-		final int STANDARD_WEEKDAY = 3; // 1970/jau/1st = Thursday
+		final int STANDARD_WEEKDAY = 4; // 1970/jau/1st = Thursday
 		
 		int count = 0;
 		
@@ -74,7 +74,7 @@ public class Calender {
 			count += delta;
 		}
 		
-		count += day;
+		count += day - 1;
 
 		int weekday = (count + STANDARD_WEEKDAY) % 7;
 		return weekday;
