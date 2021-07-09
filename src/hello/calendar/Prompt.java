@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.util.Scanner;
 
 public class Prompt {
-	
+
 	public void printMenu() {
 		System.out.println("+----------------------+");
 		System.out.println("| 1. 일정 등록           ");
@@ -18,7 +18,7 @@ public class Prompt {
 	// 요일은 일요일부터 순서대로 0 ~ 6
 
 	public int parseDay(String week) {
-		switch(week) {
+		switch (week) {
 		case "SU":
 			return 0;
 		case "MO":
@@ -35,13 +35,12 @@ public class Prompt {
 			return 6;
 		default:
 			return 0;
-		}	
+		}
 	}
 
 	public void runPrompt() throws ParseException {
 		printMenu();
-		
-		
+
 		Scanner scanner = new Scanner(System.in);
 		Calendar cal = new Calendar();
 
@@ -49,7 +48,7 @@ public class Prompt {
 		while (isLoop) {
 			System.out.println("명령 (1, 2, 3, h, q)");
 			String cmd = scanner.next();
-			switch(cmd) {
+			switch (cmd) {
 			case "1":
 				cmdRegister(scanner, cal);
 				break;
@@ -67,7 +66,7 @@ public class Prompt {
 				break;
 			}
 		}
-		
+
 		System.out.println("끝났습니다, 감사합니다.");
 		scanner.close();
 	}
@@ -84,28 +83,27 @@ public class Prompt {
 		System.out.println("월을 입력해주세요.");
 		System.out.println("MONTH> ");
 		month = s.nextInt();
-		
+
 		if (month > 12 || month < 1) {
 			System.out.println("잘못된 입력입니다.");
 			return;
 		}
-		
+
 		c.printCalendar(year, month);
-		
+
 	}
 
 	private void cmdSearch(Scanner s, Calendar c) {
 		System.out.println("[일정 검색]");
 		System.out.println("날짜를 입력해주세요 (yyyy-MM-dd).");
 		String date = s.next();
-		String plan = "";
-		try {
-			plan = c.searchPlan(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-			System.err.println();
+		PlanItem plan;
+		plan = c.searchPlan(date);
+		if (plan != null) {
+			System.out.println(plan.detail);
+		} else {
+			System.out.println("일정이 없습니다.");
 		}
-		System.out.println(plan);
 	}
 
 	private void cmdRegister(Scanner s, Calendar c) throws ParseException {
@@ -113,10 +111,10 @@ public class Prompt {
 		System.out.println("날짜를 입력해주세요 (yyyy-MM-dd).");
 		String date = s.next();
 		String text = "";
-		 s.nextLine(); //ignore one newline
+		s.nextLine(); // ignore one newline
 		System.out.println("일정을 입력해 주세요.");
 		text = s.nextLine();
-		
+
 		c.registerPlan(date, text);
 	}
 
