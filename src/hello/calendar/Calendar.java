@@ -1,9 +1,32 @@
 package hello.calendar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+
 public class Calendar {
 
 	private static final int[] MAX_DAYS = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	private static final int[] LEAP_MAX_DAYS = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+	private HashMap<Date, String> planMap;
+
+	public Calendar() {
+		planMap = new HashMap<Date, String>();
+	}
+
+	public void registerPlan(String strDate, String plan) throws ParseException {
+		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
+		// System.out.println(date);
+		planMap.put(date, plan);
+	}
+
+	public String searchPlan(String strDate) throws ParseException {
+		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
+		String plan = planMap.get(date);
+		return plan;
+	}
 
 	public boolean isLeapYear(int year) {
 		if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) {
@@ -26,9 +49,9 @@ public class Calendar {
 		System.out.println(" SU MO TU WE TH FR SA");
 		System.out.println("---------------------");
 
-		// 자동으로 요일을 가져오는 기능 구현 
+		// 자동으로 요일을 가져오는 기능 구현
 		int weekday = getWeekDay(year, month, 1);
-		
+
 		// 첫줄 빈칸 출력
 		for (int i = 0; i < weekday; i++) {
 			System.out.print("   ");
@@ -60,20 +83,20 @@ public class Calendar {
 	private int getWeekDay(int year, int month, int day) {
 		int syear = 1970;
 		final int STANDARD_WEEKDAY = 4; // 1970/jau/1st = Thursday
-		
+
 		int count = 0;
-		
-		for(int j = syear; j < year; j++) {
+
+		for (int j = syear; j < year; j++) {
 			int delta = isLeapYear(j) ? 366 : 365;
 			count += delta;
 		}
-		
+
 		// count 출력
-		for(int k = 1; k < month; k++) {
+		for (int k = 1; k < month; k++) {
 			int delta = maxDaysOfMonth(year, k);
 			count += delta;
 		}
-		
+
 		count += day - 1;
 
 		int weekday = (count + STANDARD_WEEKDAY) % 7;

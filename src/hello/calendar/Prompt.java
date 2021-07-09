@@ -1,5 +1,6 @@
 package hello.calendar;
 
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class Prompt {
@@ -17,52 +18,56 @@ public class Prompt {
 	// 요일은 일요일부터 순서대로 0 ~ 6
 
 	public int parseDay(String week) {
-		if (week == "SU") {
+		switch(week) {
+		case "SU":
 			return 0;
-		} else if (week.equals("MO")) {
+		case "MO":
 			return 1;
-		} else if (week.equals("TU")) {
+		case "TU":
 			return 2;
-		} else if (week.equals("WE")) {
+		case "WE":
 			return 3;
-		} else if (week.equals("TH")) {
+		case "TH":
 			return 4;
-		} else if (week.equals("FR")) {
+		case "FR":
 			return 5;
-		} else if (week.equals("SA")) {
+		case "SA":
 			return 6;
-		} else {
+		default:
 			return 0;
-		}
+		}	
 	}
 
-	public void runPrompt() {
+	public void runPrompt() throws ParseException {
 		printMenu();
 		
 		
 		Scanner scanner = new Scanner(System.in);
 		Calendar cal = new Calendar();
 
-
-		while (true) {
+		boolean isLoop = true;
+		while (isLoop) {
 			System.out.println("명령 (1, 2, 3, h, q)");
 			String cmd = scanner.next();
-			if (cmd.equals("1")) {
-				cmdRegister();
-			} else if (cmd.equals("2")) {
-				cmdSearch();
-			} else if (cmd.equals("3")) {
+			switch(cmd) {
+			case "1":
+				cmdRegister(scanner, cal);
+				break;
+			case "2":
+				cmdSearch(scanner, cal);
+				break;
+			case "3":
 				cmdCal(scanner, cal);
-			} else if (cmd.equals("h")) {
+				break;
+			case "h":
 				printMenu();
-			} else if (cmd.equals("q")) {
+				break;
+			case "q":
+				isLoop = false;
 				break;
 			}
 		}
-
-
 		
-
 		System.out.println("끝났습니다, 감사합니다.");
 		scanner.close();
 	}
@@ -89,17 +94,33 @@ public class Prompt {
 		
 	}
 
-	private void cmdSearch() {
-		// TODO Auto-generated method stub
-		
+	private void cmdSearch(Scanner s, Calendar c) {
+		System.out.println("[일정 검색]");
+		System.out.println("날짜를 입력해주세요 (yyyy-MM-dd).");
+		String date = s.next();
+		String plan = "";
+		try {
+			plan = c.searchPlan(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			System.err.println();
+		}
+		System.out.println(plan);
 	}
 
-	private void cmdRegister() {
-		// TODO Auto-generated method stub
+	private void cmdRegister(Scanner s, Calendar c) throws ParseException {
+		System.out.println("[새 일정 등록]");
+		System.out.println("날짜를 입력해주세요 (yyyy-MM-dd).");
+		String date = s.next();
+		String text = "";
+		 s.nextLine(); //ignore one newline
+		System.out.println("일정을 입력해 주세요.");
+		text = s.nextLine();
 		
+		c.registerPlan(date, text);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		// 셀 실행
 		Prompt p = new Prompt();
 		p.runPrompt();
